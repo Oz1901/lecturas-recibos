@@ -2,26 +2,27 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lectura de Recibos 2025</title>
 
 <style>
 body {
   font-family: Arial, sans-serif;
   background: #f4f4f4;
-  padding: 20px;
+  padding: 15px;
 }
 
 .container {
   background: #fff;
-  max-width: 950px;
+  max-width: 1000px;
   margin: auto;
-  padding: 20px;
+  padding: 15px;
   border-radius: 8px;
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 table {
@@ -32,6 +33,7 @@ table {
 th, td {
   border: 1px solid #ccc;
   padding: 8px;
+  text-align: center;
 }
 
 th {
@@ -43,11 +45,13 @@ th {
   align-items: center;
   gap: 8px;
   font-weight: bold;
+  text-align: left;
 }
 
 .servicio img {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
 }
 
 input {
@@ -58,14 +62,13 @@ input {
 }
 
 .total-servicio {
-  text-align: right;
   font-weight: bold;
 }
 
 .resumen {
-  width: 300px;
+  max-width: 320px;
   margin-left: auto;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .resumen div {
@@ -79,6 +82,46 @@ input {
   font-weight: bold;
   border-top: 2px solid #000;
   padding-top: 8px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+  table, thead, tbody, th, tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    padding: 10px;
+  }
+
+  td {
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .servicio {
+    justify-content: flex-start;
+  }
+
+  .resumen {
+    max-width: 100%;
+  }
 }
 </style>
 </head>
@@ -98,77 +141,65 @@ input {
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td class="servicio"><img src="img/internet.png">PLAN INTERNET</td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="total-servicio">0.00</td>
-      </tr>
-      <tr>
-        <td class="servicio"><img src="img/tv.png">TV WIN / DIRECTV</td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="total-servicio">0.00</td>
-      </tr>
-      <tr>
-        <td class="servicio"><img src="img/winbox.png">WIN BOX</td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="total-servicio">0.00</td>
-      </tr>
-      <tr>
-        <td class="servicio"><img src="img/mesh.png">MESH</td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="total-servicio">0.00</td>
-      </tr>
-      <tr>
-        <td class="servicio"><img src="img/fono.png">FONO WIN</td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="total-servicio">0.00</td>
-      </tr>
-      <tr>
-        <td class="servicio"><img src="img/reconexion.png">RECONEXIÓN</td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="total-servicio">0.00</td>
-      </tr>
-      <tr>
-        <td class="servicio"><img src="img/instalacion.png">INSTALACIÓN</td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="total-servicio">0.00</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <div class="resumen">
-    <div class="total-final">
-      <span>TOTAL FINAL</span>
-      <span>S/ <span id="totalFinal">0.00</span></span>
-    </div>
-  </div>
-</div>
+      <tr>
+        <td class="servicio" data-label="Servicio">
+          <img src="img/internet.png"> PLAN INTERNET
+        </td>
+        <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
+        <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
+        <td class="total-servicio" data-label="Total">0.00</td>
+      </tr>
 
-<script>
-function calcular() {
-  let totalFinal = 0;
+      <tr>
+        <td class="servicio" data-label="Servicio">
+          <img src="img/tv.png"> TV WIN / DIRECTV
+        </td>
+        <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
+        <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
+        <td class="total-servicio" data-label="Total">0.00</td>
+      </tr>
 
-  document.querySelectorAll("tbody tr").forEach(row => {
-    const importe = parseFloat(row.cells[1].querySelector("input").value) || 0;
-    const descuento = parseFloat(row.cells[2].querySelector("input").value) || 0;
+      <tr>
+        <td class="servicio" data-label="Servicio">
+          <img src="img/winbox.png"> WIN BOX
+        </td>
+        <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
+        <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
+        <td class="total-servicio" data-label="Total">0.00</td>
+      </tr>
 
-    const base = importe - descuento;
-    const totalServicio = base + (base * 0.18);
+      <tr>
+        <td class="servicio" data-label="Servicio">
+          <img src="img/mesh.png"> MESH
+        </td>
+        <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
+        <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
+        <td class="total-servicio" data-label="Total">0.00</td>
+      </tr>
 
-    row.cells[3].textContent = totalServicio.toFixed(2);
-    totalFinal += totalServicio;
-  });
+      <tr>
+        <td class="servicio" data-label="Servicio">
+          <img src="img/fono.png"> FONO WIN
+        </td>
+        <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
+        <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
+        <td class="total-servicio" data-label="Total">0.00</td>
+      </tr>
 
-  document.getElementById("totalFinal").textContent = totalFinal.toFixed(2);
-}
-</script>
+      <tr>
+        <td class="servicio" data-label="Servicio">
+          <img src="img/reconexion.png"> RECONEXIÓN
+        </td>
+        <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
+        <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
+        <td class="total-servicio" data-label="Total">0.00</td>
+      </tr>
 
-</body>
-</html>
+      <tr>
+        <td class="servicio" data-label="Servicio">
+          <img src="img/instalacion.png"> INSTALACIÓN
+        </td>
+        <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
+        <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
+        <td class="total-se
