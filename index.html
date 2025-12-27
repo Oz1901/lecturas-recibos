@@ -1,44 +1,122 @@
-<tbody id="detalle">
-<tr>
-  <td>PLAN INTERNET</td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td class="subtotal">0.00</td>
-</tr>
-<tr>
-  <td>TV WIN / DIRECTV</td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td class="subtotal">0.00</td>
-</tr>
-<tr>
-  <td>WIN BOX</td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td class="subtotal">0.00</td>
-</tr>
-<tr>
-  <td>MESH</td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td class="subtotal">0.00</td>
-</tr>
-<tr>
-  <td>FONO WIN</td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td class="subtotal">0.00</td>
-</tr>
-<tr>
-  <td>RECONEXIÓN</td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td class="subtotal">0.00</td>
-</tr>
-<tr>
-  <td>INSTALACIÓN</td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td><input type="number" value="0" oninput="calcular()"></td>
-  <td class="subtotal">0.00</td>
-</tr>
-</tbody>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Lectura de Recibos 2025</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    padding: 20px;
+  }
+
+  .recibo {
+    background: #fff;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+  }
+
+  th {
+    background: #eaeaea;
+  }
+
+  td:first-child {
+    text-align: left;
+    font-weight: bold;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px;
+    text-align: right;
+  }
+
+  .totales {
+    margin-top: 20px;
+    max-width: 300px;
+    margin-left: auto;
+  }
+
+  .totales div {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+    font-size: 16px;
+  }
+
+  .total-final {
+    font-size: 18px;
+    font-weight: bold;
+    border-top: 2px solid #000;
+    padding-top: 8px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="recibo">
+  <h2>MODELO RECIBO 2025</h2>
+
+  <table id="tabla">
+    <thead>
+      <tr>
+        <th>Servicio</th>
+        <th>Importe</th>
+        <th>Descuento</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>PLAN INTERNET</td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td class="subtotal">0.00</td>
+      </tr>
+      <tr>
+        <td>TV WIN / DIRECTV</td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td class="subtotal">0.00</td>
+      </tr>
+      <tr>
+        <td>WIN BOX</td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td class="subtotal">0.00</td>
+      </tr>
+      <tr>
+        <td>MESH</td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td class="subtotal">0.00</td>
+      </tr>
+      <tr>
+        <td>FONO WIN</td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td class="subtotal">0.00</td>
+      </tr>
+      <tr>
+        <td>RECONEXIÓN</td>
