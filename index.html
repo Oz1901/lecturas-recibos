@@ -5,80 +5,83 @@
 <title>Lectura de Recibos 2025</title>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f2f2f2;
-    padding: 20px;
-  }
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 20px;
+}
 
-  .recibo {
-    background: #fff;
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 8px;
-  }
+.container {
+  background: #fff;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+}
 
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-  th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-  }
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
 
-  th {
-    background: #eaeaea;
-  }
+th {
+  background: #eaeaea;
+  text-align: center;
+}
 
-  td:first-child {
-    text-align: left;
-    font-weight: bold;
-  }
+td:first-child {
+  font-weight: bold;
+}
 
-  input[type="number"] {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 4px;
-    text-align: right;
-  }
+input {
+  width: 100%;
+  padding: 4px;
+  text-align: right;
+  box-sizing: border-box;
+}
 
-  .totales {
-    margin-top: 20px;
-    max-width: 300px;
-    margin-left: auto;
-  }
+.subtotal {
+  text-align: right;
+  font-weight: bold;
+}
 
-  .totales div {
-    display: flex;
-    justify-content: space-between;
-    margin: 6px 0;
-    font-size: 16px;
-  }
+.resumen {
+  width: 300px;
+  margin-left: auto;
+  margin-top: 20px;
+}
 
-  .total-final {
-    font-size: 18px;
-    font-weight: bold;
-    border-top: 2px solid #000;
-    padding-top: 8px;
-  }
+.resumen div {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.total {
+  font-size: 18px;
+  font-weight: bold;
+  border-top: 2px solid #000;
+  padding-top: 8px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="recibo">
+<div class="container">
   <h2>MODELO RECIBO 2025</h2>
 
-  <table id="tabla">
+  <table>
     <thead>
       <tr>
         <th>Servicio</th>
@@ -120,3 +123,57 @@
       </tr>
       <tr>
         <td>RECONEXIÓN</td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td class="subtotal">0.00</td>
+      </tr>
+      <tr>
+        <td>INSTALACIÓN</td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td><input type="number" value="0" oninput="calcular()"></td>
+        <td class="subtotal">0.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="resumen">
+    <div>
+      <span>Subtotal</span>
+      <span>S/ <span id="subGeneral">0.00</span></span>
+    </div>
+    <div>
+      <span>IGV (18%)</span>
+      <span>S/ <span id="igv">0.00</span></span>
+    </div>
+    <div class="total">
+      <span>Total</span>
+      <span>S/ <span id="total">0.00</span></span>
+    </div>
+  </div>
+</div>
+
+<script>
+function calcular() {
+  let subtotalGeneral = 0;
+
+  document.querySelectorAll("tbody tr").forEach(row => {
+    const importe = parseFloat(row.cells[1].querySelector("input").value) || 0;
+    const descuento = parseFloat(row.cells[2].querySelector("input").value) || 0;
+
+    const subtotal = importe - descuento;
+    row.cells[3].textContent = subtotal.toFixed(2);
+
+    subtotalGeneral += subtotal;
+  });
+
+  const igv = subtotalGeneral * 0.18;
+  const total = subtotalGeneral + igv;
+
+  document.getElementById("subGeneral").textContent = subtotalGeneral.toFixed(2);
+  document.getElementById("igv").textContent = igv.toFixed(2);
+  document.getElementById("total").textContent = total.toFixed(2);
+}
+</script>
+
+</body>
+</html>
