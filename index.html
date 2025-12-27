@@ -13,7 +13,7 @@ body {
 
 .container {
   background: #fff;
-  max-width: 900px;
+  max-width: 950px;
   margin: auto;
   padding: 20px;
   border-radius: 8px;
@@ -36,11 +36,18 @@ th, td {
 
 th {
   background: #eaeaea;
-  text-align: center;
 }
 
-td:first-child {
+.servicio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-weight: bold;
+}
+
+.servicio img {
+  width: 28px;
+  height: 28px;
 }
 
 input {
@@ -50,7 +57,7 @@ input {
   box-sizing: border-box;
 }
 
-.subtotal {
+.total-servicio {
   text-align: right;
   font-weight: bold;
 }
@@ -67,7 +74,7 @@ input {
   margin: 6px 0;
 }
 
-.total {
+.total-final {
   font-size: 18px;
   font-weight: bold;
   border-top: 2px solid #000;
@@ -87,91 +94,79 @@ input {
         <th>Servicio</th>
         <th>Importe</th>
         <th>Descuento</th>
-        <th>Subtotal</th>
+        <th>Total (IGV incluido)</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>PLAN INTERNET</td>
+        <td class="servicio"><img src="img/internet.png">PLAN INTERNET</td>
         <td><input type="number" value="0" oninput="calcular()"></td>
         <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="subtotal">0.00</td>
+        <td class="total-servicio">0.00</td>
       </tr>
       <tr>
-        <td>TV WIN / DIRECTV</td>
+        <td class="servicio"><img src="img/tv.png">TV WIN / DIRECTV</td>
         <td><input type="number" value="0" oninput="calcular()"></td>
         <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="subtotal">0.00</td>
+        <td class="total-servicio">0.00</td>
       </tr>
       <tr>
-        <td>WIN BOX</td>
+        <td class="servicio"><img src="img/winbox.png">WIN BOX</td>
         <td><input type="number" value="0" oninput="calcular()"></td>
         <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="subtotal">0.00</td>
+        <td class="total-servicio">0.00</td>
       </tr>
       <tr>
-        <td>MESH</td>
+        <td class="servicio"><img src="img/mesh.png">MESH</td>
         <td><input type="number" value="0" oninput="calcular()"></td>
         <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="subtotal">0.00</td>
+        <td class="total-servicio">0.00</td>
       </tr>
       <tr>
-        <td>FONO WIN</td>
+        <td class="servicio"><img src="img/fono.png">FONO WIN</td>
         <td><input type="number" value="0" oninput="calcular()"></td>
         <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="subtotal">0.00</td>
+        <td class="total-servicio">0.00</td>
       </tr>
       <tr>
-        <td>RECONEXIÓN</td>
+        <td class="servicio"><img src="img/reconexion.png">RECONEXIÓN</td>
         <td><input type="number" value="0" oninput="calcular()"></td>
         <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="subtotal">0.00</td>
+        <td class="total-servicio">0.00</td>
       </tr>
       <tr>
-        <td>INSTALACIÓN</td>
+        <td class="servicio"><img src="img/instalacion.png">INSTALACIÓN</td>
         <td><input type="number" value="0" oninput="calcular()"></td>
         <td><input type="number" value="0" oninput="calcular()"></td>
-        <td class="subtotal">0.00</td>
+        <td class="total-servicio">0.00</td>
       </tr>
     </tbody>
   </table>
 
   <div class="resumen">
-    <div>
-      <span>Subtotal</span>
-      <span>S/ <span id="subGeneral">0.00</span></span>
-    </div>
-    <div>
-      <span>IGV (18%)</span>
-      <span>S/ <span id="igv">0.00</span></span>
-    </div>
-    <div class="total">
-      <span>Total</span>
-      <span>S/ <span id="total">0.00</span></span>
+    <div class="total-final">
+      <span>TOTAL FINAL</span>
+      <span>S/ <span id="totalFinal">0.00</span></span>
     </div>
   </div>
 </div>
 
 <script>
 function calcular() {
-  let subtotalGeneral = 0;
+  let totalFinal = 0;
 
   document.querySelectorAll("tbody tr").forEach(row => {
     const importe = parseFloat(row.cells[1].querySelector("input").value) || 0;
     const descuento = parseFloat(row.cells[2].querySelector("input").value) || 0;
 
-    const subtotal = importe - descuento;
-    row.cells[3].textContent = subtotal.toFixed(2);
+    const base = importe - descuento;
+    const totalServicio = base + (base * 0.18);
 
-    subtotalGeneral += subtotal;
+    row.cells[3].textContent = totalServicio.toFixed(2);
+    totalFinal += totalServicio;
   });
 
-  const igv = subtotalGeneral * 0.18;
-  const total = subtotalGeneral + igv;
-
-  document.getElementById("subGeneral").textContent = subtotalGeneral.toFixed(2);
-  document.getElementById("igv").textContent = igv.toFixed(2);
-  document.getElementById("total").textContent = total.toFixed(2);
+  document.getElementById("totalFinal").textContent = totalFinal.toFixed(2);
 }
 </script>
 
