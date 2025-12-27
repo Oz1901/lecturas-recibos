@@ -25,6 +25,20 @@ h2 {
   margin-bottom: 15px;
 }
 
+button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -128,8 +142,10 @@ input {
 
 <body>
 
-<div class="container">
+<div class="container" id="recibo">
   <h2>MODELO RECIBO 2025</h2>
+
+  <button onclick="exportarPDF()">Exportar a PDF</button>
 
   <table>
     <thead>
@@ -143,63 +159,103 @@ input {
     <tbody>
 
       <tr>
-        <td class="servicio" data-label="Servicio">
-          <img src="img/internet.png"> PLAN INTERNET
-        </td>
+        <td class="servicio" data-label="Servicio"><img src="img/internet.png"> PLAN INTERNET</td>
         <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
         <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
         <td class="total-servicio" data-label="Total">0.00</td>
       </tr>
 
       <tr>
-        <td class="servicio" data-label="Servicio">
-          <img src="img/tv.png"> TV WIN / DIRECTV
-        </td>
+        <td class="servicio" data-label="Servicio"><img src="img/tv.png"> TV WIN / DIRECTV</td>
         <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
         <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
         <td class="total-servicio" data-label="Total">0.00</td>
       </tr>
 
       <tr>
-        <td class="servicio" data-label="Servicio">
-          <img src="img/winbox.png"> WIN BOX
-        </td>
+        <td class="servicio" data-label="Servicio"><img src="img/winbox.png"> WIN BOX</td>
         <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
         <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
         <td class="total-servicio" data-label="Total">0.00</td>
       </tr>
 
       <tr>
-        <td class="servicio" data-label="Servicio">
-          <img src="img/mesh.png"> MESH
-        </td>
+        <td class="servicio" data-label="Servicio"><img src="img/mesh.png"> MESH</td>
         <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
         <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
         <td class="total-servicio" data-label="Total">0.00</td>
       </tr>
 
       <tr>
-        <td class="servicio" data-label="Servicio">
-          <img src="img/fono.png"> FONO WIN
-        </td>
+        <td class="servicio" data-label="Servicio"><img src="img/fono.png"> FONO WIN</td>
         <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
         <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
         <td class="total-servicio" data-label="Total">0.00</td>
       </tr>
 
       <tr>
-        <td class="servicio" data-label="Servicio">
-          <img src="img/reconexion.png"> RECONEXIÓN
-        </td>
+        <td class="servicio" data-label="Servicio"><img src="img/reconexion.png"> RECONEXIÓN</td>
         <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
         <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
         <td class="total-servicio" data-label="Total">0.00</td>
       </tr>
 
       <tr>
-        <td class="servicio" data-label="Servicio">
-          <img src="img/instalacion.png"> INSTALACIÓN
-        </td>
+        <td class="servicio" data-label="Servicio"><img src="img/instalacion.png"> INSTALACIÓN</td>
         <td data-label="Importe"><input type="number" value="0" oninput="calcular()"></td>
         <td data-label="Descuento"><input type="number" value="0" oninput="calcular()"></td>
-        <td class="total-se
+        <td class="total-servicio" data-label="Total">0.00</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="resumen">
+    <div class="total-final">
+      <span>TOTAL FINAL</span>
+      <span>S/ <span id="totalFinal">0.00</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- LIBRERÍAS PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+function calcular() {
+  let totalFinal = 0;
+
+  document.querySelectorAll("tbody tr").forEach(row => {
+    const importe = parseFloat(row.querySelector('td[data-label="Importe"] input').value) || 0;
+    const descuento = parseFloat(row.querySelector('td[data-label="Descuento"] input').value) || 0;
+
+    const base = importe - descuento;
+    const totalServicio = base + (base * 0.18);
+
+    row.querySelector('.total-servicio').textContent = totalServicio.toFixed(2);
+    totalFinal += totalServicio;
+  });
+
+  document.getElementById("totalFinal").textContent = totalFinal.toFixed(2);
+}
+
+function exportarPDF() {
+  const { jsPDF } = window.jspdf;
+  const recibo = document.getElementById("recibo");
+
+  html2canvas(recibo, { scale: 2 }).then(canvas => {
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = (canvas.height * pageWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
+    pdf.save("recibo_2025.pdf");
+  });
+}
+</script>
+
+</body>
+</html>
